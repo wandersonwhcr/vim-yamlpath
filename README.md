@@ -8,3 +8,8 @@ Vim YAML Path Plugin
 docker compose run --rm \
     ruby bundle
 ```
+
+```
+docker compose run --rm \
+    ruby rspec
+```
