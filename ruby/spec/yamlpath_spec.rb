@@ -1,9 +1,10 @@
-require './lib/yamlpath'
+require 'yamlpath'
 
 describe YAMLPath do
-  describe "#hello" do
-    it "tests true" do
-      expect(true).to eql(true)
+  describe "#path" do
+    let(:empty) { File.read("./spec/fixtures/empty.yaml") }
+    it "returns root" do
+      expect(YAMLPath.path(empty)).to eql(".")
     end
   end
 end
