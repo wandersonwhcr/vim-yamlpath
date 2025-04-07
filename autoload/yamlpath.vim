@@ -2,13 +2,7 @@ if exists('*yamlpath#hello')
   finish
 endif
 
-ruby << RUBY
-class YAMLPath
-  def self.hello()
-    print "Hello, World"
-  end
-end
-RUBY
+execute 'rubyfile' fnameescape(expand('<sfile>:p:h') . '/../ruby/lib/yamlpath.rb')
 
 function! yamlpath#hello()
   :ruby YAMLPath.hello()
