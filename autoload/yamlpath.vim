@@ -2,7 +2,9 @@ if exists('*yamlpath#hello')
   finish
 endif
 
-execute 'rubyfile' fnameescape(expand('<sfile>:p:h') . '/../ruby/lib/yamlpath.rb')
+:ruby $LOAD_PATH << File.expand_path("../ruby/lib", Vim::evaluate("expand('<sfile>:p:h')"))
+
+rubyfile yamlpath.rb
 
 function! yamlpath#hello()
   :ruby YAMLPath.hello()
