@@ -1,0 +1,12 @@
+services:
+  ruby:
+    image: ruby:3.4-alpine
+    volumes:
+      - ./ruby:/usr/local/src
+      - bundle:/usr/local/bundle
+    working_dir: /usr/local/src
+    profiles:
+      - donotstart
+
+volumes:
+  bundle:
