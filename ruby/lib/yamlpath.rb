@@ -5,18 +5,26 @@ class YAMLPath
     print "Hello, World"
   end
 
-  def self.path(content)
+  def self.traverse(node, line)
+    result = []
+
+    case node
+    when YAML::Nodes::Mapping
+      node.children.each_slice(2) do |key, value|
+        if key.start_line <= line and line <= value.end_line
+          result << "." + key.value
+        end
+      end
+    end
+
+    return result
+  end
+
+  def self.path(content, line)
     if not document = YAML.parse(content)
       return "."
     end
 
-    child = document.children.first
-
-    case child
-    when YAML::Nodes::Scalar
-      return "."
-    end
-
-    ".a"
+    return "." + traverse(document.children.first, line - 1).join().gsub(/^\./, "")
   end
 end
