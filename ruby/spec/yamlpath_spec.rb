@@ -1,7 +1,7 @@
 require 'yamlpath'
 
 describe YAMLPath do
-  describe "#path" do
+  describe "Path" do
     let(:empty)             { File.read("./spec/fixtures/empty.yaml")             }
     let(:scalar)            { File.read("./spec/fixtures/scalar.yaml")            }
     let(:mapping_simple)    { File.read("./spec/fixtures/mapping_simple.yaml")    }
@@ -81,6 +81,18 @@ describe YAMLPath do
 
     it "handles invalid syntax", :syntax => true do
       expect(YAMLPath.path(invalid, 1)).to include("line 2 column 1")
+    end
+
+    it "uses vim bindings to retrieve current buffer and line", :vim => true do
+      window = double("Vim::Window.current")
+      buffer = double("Vim::Buffer.current")
+
+      allow(window).to receive(:cursor).and_return([2, 5])
+      allow(buffer).to receive(:count).and_return(2)
+      allow(buffer).to receive(:[]).with(1).and_return("a:")
+      allow(buffer).to receive(:[]).with(2).and_return("  b: c")
+
+      expect(YAMLPath.vim(window, buffer)).to eql(".a.b")
     end
   end
 end

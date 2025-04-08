@@ -41,4 +41,13 @@ class YAMLPath
       return e.to_s
     end
   end
+
+  def self.vim(window, buffer)
+    content = []
+    buffer.count.times do |i|
+      content << buffer[i + 1]
+    end
+
+    return self.path(content.join("\n"), window.cursor[0])
+  end
 end

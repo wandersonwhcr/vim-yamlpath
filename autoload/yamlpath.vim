@@ -7,5 +7,5 @@ endif
 rubyfile yamlpath.rb
 
 function! yamlpath#hello()
-  :ruby YAMLPath.hello()
+  :ruby print YAMLPath.vim(Vim::Window.current, Vim::Buffer.current)
 endfunction
