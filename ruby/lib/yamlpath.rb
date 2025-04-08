@@ -31,10 +31,14 @@ class YAMLPath
   end
 
   def self.path(content, line)
-    if not document = YAML.parse(content)
-      return "."
-    end
+    begin
+      if not document = YAML.parse(content)
+        return "."
+      end
 
-    return "." + traverse(document.children.first, line - 1).join().gsub(/^\./, "")
+      return "." + traverse(document.children.first, line - 1).join().gsub(/^\./, "")
+    rescue YAML::SyntaxError => e
+      return e.to_s
+    end
   end
 end

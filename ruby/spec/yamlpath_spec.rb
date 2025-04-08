@@ -13,6 +13,7 @@ describe YAMLPath do
     let(:sequence_nested)   { File.read("./spec/fixtures/sequence_nested.yaml")   }
     let(:sequence_mapping)  { File.read("./spec/fixtures/sequence_mapping.yaml")  }
     let(:k8s_deployment)    { File.read("./spec/fixtures/k8s_deployment.yaml")    }
+    let(:invalid)           { File.read("./spec/fixtures/invalid.yaml")           }
 
     it "returns root for empty file", :empty => true do
       expect(YAMLPath.path(empty, 1)).to eql(".")
@@ -76,6 +77,10 @@ describe YAMLPath do
 
     it "retrieves k8s deployment tolerations on-demand", :k8s => true do
       expect(YAMLPath.path(k8s_deployment, 63)).to eql(".spec.template.spec.tolerations[1].value")
+    end
+
+    it "handles invalid syntax", :syntax => true do
+      expect(YAMLPath.path(invalid, 1)).to include("line 2 column 1")
     end
   end
 end
