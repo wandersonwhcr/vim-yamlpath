@@ -7,9 +7,11 @@ describe YAMLPath do
     let(:mapping_simple)    { File.read("./spec/fixtures/mapping_simple.yaml")    }
     let(:mapping_multiple)  { File.read("./spec/fixtures/mapping_multiple.yaml")  }
     let(:mapping_nested)    { File.read("./spec/fixtures/mapping_nested.yaml")    }
+    let(:mapping_sequence)  { File.read("./spec/fixtures/mapping_sequence.yaml")  }
     let(:sequence_simple)   { File.read("./spec/fixtures/sequence_simple.yaml")   }
     let(:sequence_multiple) { File.read("./spec/fixtures/sequence_multiple.yaml") }
     let(:sequence_nested)   { File.read("./spec/fixtures/sequence_nested.yaml")   }
+    let(:sequence_mapping)  { File.read("./spec/fixtures/sequence_mapping.yaml")  }
 
     it "returns root for empty file", :empty => true do
       expect(YAMLPath.path(empty, 1)).to eql(".")
@@ -57,6 +59,14 @@ describe YAMLPath do
 
     it "returns second key for nested sequence on line 2", :sequence => true do
       expect(YAMLPath.path(sequence_nested, 2)).to eql(".[0][1]")
+    end
+
+    it "returns last element from mapping sequence", :mapping => true, :sequence => true do
+      expect(YAMLPath.path(mapping_sequence, 5)).to eql(".c[1]")
+    end
+
+    it "returns last element from sequence mapping", :sequence => true, :mapping => true do
+      expect(YAMLPath.path(sequence_mapping, 5)).to eql(".[1].d.g")
     end
   end
 end
