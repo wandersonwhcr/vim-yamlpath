@@ -2,12 +2,13 @@ require 'yamlpath'
 
 describe YAMLPath do
   describe "#path" do
-    let(:empty)            { File.read("./spec/fixtures/empty.yaml")            }
-    let(:scalar)           { File.read("./spec/fixtures/scalar.yaml")           }
-    let(:mapping_simple)   { File.read("./spec/fixtures/mapping_simple.yaml")   }
-    let(:mapping_multiple) { File.read("./spec/fixtures/mapping_multiple.yaml") }
-    let(:mapping_nested)   { File.read("./spec/fixtures/mapping_nested.yaml")   }
-    let(:sequence_simple)  { File.read("./spec/fixtures/sequence_simple.yaml")  }
+    let(:empty)             { File.read("./spec/fixtures/empty.yaml")             }
+    let(:scalar)            { File.read("./spec/fixtures/scalar.yaml")            }
+    let(:mapping_simple)    { File.read("./spec/fixtures/mapping_simple.yaml")    }
+    let(:mapping_multiple)  { File.read("./spec/fixtures/mapping_multiple.yaml")  }
+    let(:mapping_nested)    { File.read("./spec/fixtures/mapping_nested.yaml")    }
+    let(:sequence_simple)   { File.read("./spec/fixtures/sequence_simple.yaml")   }
+    let(:sequence_multiple) { File.read("./spec/fixtures/sequence_multiple.yaml") }
 
     it "returns root for empty file", :empty => true do
       expect(YAMLPath.path(empty, 1)).to eql(".")
@@ -39,6 +40,14 @@ describe YAMLPath do
 
     it "returns key for simple sequence", :sequence => true do
       expect(YAMLPath.path(sequence_simple, 1)).to eql(".[0]")
+    end
+
+    it "returns first key for multiple sequence on line 1", :sequence => true do
+      expect(YAMLPath.path(sequence_multiple, 1)).to eql(".[0]")
+    end
+
+    it "returns second key for multiple sequence on line 2", :sequence => true do
+      expect(YAMLPath.path(sequence_multiple, 2)).to eql(".[1]")
     end
   end
 end
