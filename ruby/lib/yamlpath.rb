@@ -1,10 +1,6 @@
 require 'yaml'
 
 class YAMLPath
-  def self.hello()
-    print "Hello, World"
-  end
-
   def self.traverse(node, line)
     result = []
 
