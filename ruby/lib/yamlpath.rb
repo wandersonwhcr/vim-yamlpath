@@ -13,6 +13,9 @@ class YAMLPath
       node.children.each_slice(2) do |key, value|
         if key.start_line <= line and line <= value.end_line
           result << "." + key.value
+          if value.start_line <= line and line <= value.end_line
+            result += traverse(value, line)
+          end
         end
       end
     end
