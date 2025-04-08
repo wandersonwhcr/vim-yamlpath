@@ -1,4 +1,4 @@
-if exists('*yamlpath#hello')
+if exists('*yamlpath#vim')
   finish
 endif
 
@@ -6,6 +6,6 @@ endif
 
 rubyfile yamlpath.rb
 
-function! yamlpath#hello()
+function! yamlpath#vim()
   :ruby print YAMLPath.vim(Vim::Window.current, Vim::Buffer.current)
 endfunction
