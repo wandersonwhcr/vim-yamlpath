@@ -12,6 +12,7 @@ describe YAMLPath do
     let(:sequence_multiple) { File.read("./spec/fixtures/sequence_multiple.yaml") }
     let(:sequence_nested)   { File.read("./spec/fixtures/sequence_nested.yaml")   }
     let(:sequence_mapping)  { File.read("./spec/fixtures/sequence_mapping.yaml")  }
+    let(:k8s_deployment)    { File.read("./spec/fixtures/k8s_deployment.yaml")    }
 
     it "returns root for empty file", :empty => true do
       expect(YAMLPath.path(empty, 1)).to eql(".")
@@ -67,6 +68,14 @@ describe YAMLPath do
 
     it "returns last element from sequence mapping", :sequence => true, :mapping => true do
       expect(YAMLPath.path(sequence_mapping, 5)).to eql(".[1].d.g")
+    end
+
+    it "retrieves k8s deployment affinity node on-demand", :k8s => true do
+      expect(YAMLPath.path(k8s_deployment, 47)).to eql(".spec.template.spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[1].matchExpressions[0].values[1]")
+    end
+
+    it "retrieves k8s deployment tolerations on-demand", :k8s => true do
+      expect(YAMLPath.path(k8s_deployment, 63)).to eql(".spec.template.spec.tolerations[1].value")
     end
   end
 end
