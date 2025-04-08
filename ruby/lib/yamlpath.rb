@@ -18,6 +18,13 @@ class YAMLPath
           end
         end
       end
+    when YAML::Nodes::Sequence
+      node.children.each_with_index do |child, i|
+        if child.start_line <= line and line <= child.end_line
+          result << "[" + i.to_s + "]"
+          result += traverse(child, line)
+        end
+      end
     end
 
     return result
